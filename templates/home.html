@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <table class="table table-bordered border-danger mt-4">    
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Musician Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Album Rating</th>
+            <th scope="col">Instrument Type</th>
+            <th scope="col">Album Name</th>
+            <th scope="col">Release Date</th>
+            {% if request.user.is_authenticated %}
+            <th scope="col">Actions</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+            {% for val in data %}
+            <tr>
+            <th scope="row">{{val.id}}</th>
+            {% if request.user.is_authenticated %}
+            <td><a href="{% url 'edit_post_musicain' val.musician.id %}" class="text-decoration-none text-primary">{{val.musician.first_Name}} {{val.musician.last_Name}}</a></td>
+            {%else%}
+            <td>{{val.musician.first_Name}} {{val.musician.last_Name}}</td>
+            {%endif%}
+            <td>{{val.musician.email}}</td>
+            <td>{{val.Rating}}</td>
+            <td>{{val.musician.instrument_type}}</td>
+            <td>{{val.album_Name}}</td>
+            <td>{{val.album_release_data}}</td>
+            <td>
+              {% if request.user.is_authenticated %}
+                <a href="{% url 'edit_post' val.id %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'delete_post' val.id %}" class="btn btn-danger">Delete</a>
+              {%endif%}
+            </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+  </table>
+{% endblock content %}
